@@ -39,8 +39,9 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function register(Request $request){
-        if($request->isMethod('post')){
+    public function register(Request $request)
+    {
+        if ($request->isMethod('post')) {
 
             $username = $request->input('username');
             $mail = $request->input('mail');
@@ -52,12 +53,15 @@ class RegisterController extends Controller
                 'password' => bcrypt($password),
             ]);
 
-            return redirect('added');
+
+            return redirect('added')->with('registered_username', $username);
         }
         return view('auth.register');
     }
 
-    public function added(){
-        return view('auth.added');
+    public function added()
+    {
+        $username = session('registered_username'); // セッションから値を取得
+        return view('auth.added', compact('username'));
     }
 }

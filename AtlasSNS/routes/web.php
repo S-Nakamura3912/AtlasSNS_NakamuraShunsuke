@@ -20,21 +20,21 @@
 
 
 //ログアウト中のページ
-Route::get('/login', 'Auth\LoginController@login');
-Route::post('/login', 'Auth\LoginController@login');
+Route::get('/login', 'Auth\LoginController@login'); //ログイン画面表示
+Route::post('/login', 'Auth\LoginController@login'); //ログイン処理
 
-Route::get('/register', 'Auth\RegisterController@register');
-Route::post('/register', 'Auth\RegisterController@register');
+Route::get('/register', 'Auth\RegisterController@register'); //ユーザーの登録画面を表示させる
+Route::post('/register', 'Auth\RegisterController@register'); //データベースにユーザー登録処理
 
 Route::get('/added', 'Auth\RegisterController@added');
-Route::post('/added', 'Auth\RegisterController@added');
+// Route::post('/added', 'Auth\RegisterController@added');
 
 //ログイン中のページ
-Route::get('/top','PostsController@index');
+Route::get('/top', 'PostsController@index'); //トップページ表示
 
-Route::get('/profile','UsersController@profile');
+Route::get('/profile', 'UsersController@profile');
 
-Route::get('/search','UsersController@index');
+Route::get('/search', 'UsersController@index');
 
-Route::get('/follow-list','PostsController@index');
-Route::get('/follower-list','PostsController@index');
+Route::get('/follow-list', 'PostsController@index');
+Route::get('/follower-list', 'PostsController@index');
