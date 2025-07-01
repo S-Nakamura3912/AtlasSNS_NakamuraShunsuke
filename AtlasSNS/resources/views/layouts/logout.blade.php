@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <!--IEブラウザ対策-->
@@ -19,10 +20,21 @@
   <link rel="apple-touch-icon-precomposed" href="画像のURL" />
   <!--OGPタグ/twitterカード-->
 </head>
+
 <body>
   <header>
     <h1><img src="images/atlas.png"></h1>
     <p>Social Network Service</p>
+
+    @auth
+    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+      @csrf
+      <button type="submit">ログアウト</button>
+    </form>
+    @endauth
+    <!-- logoutしたらlogin画面に戻る -->
+
+
   </header>
   <div id="container">
     @yield('content')
@@ -30,4 +42,5 @@
   <script src="JavaScriptファイルのURL"></script>
   <script src="JavaScriptファイルのURL"></script>
 </body>
+
 </html>

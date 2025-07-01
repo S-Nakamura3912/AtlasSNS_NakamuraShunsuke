@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <!--IEブラウザ対策-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="ページの内容を表す文章" />
@@ -19,37 +20,48 @@
     <link rel="apple-touch-icon-precomposed" href="画像のURL" />
     <!--OGPタグ/twitterカード-->
 </head>
+
 <body>
     <header>
-        <div id = "head">
-        <h1><a><img src="images/logo.png"></a></h1>
+        <div id="head">
+            <h1><a><img src="images/logo.png"></a></h1>
             <div id="">
                 <div id="">
                     <p>〇〇さん<img src="images/arrow.png"></p>
-                <div>
-                <ul>
-                    <li><a href="/top">ホーム</a></li>
-                    <li><a href="/profile">プロフィール</a></li>
-                    <li><a href="/logout">ログアウト</a></li>
-                </ul>
-            </div>
-        </div>
+                    <div>
+                        <ul>
+                            <li><a href="/top">ホーム</a></li>
+                            <li><a href="/profile">プロフィール</a></li>
+                            <!-- <li><a href="/logout">ログアウト</a></li>//get送信になっている -->
+                            <li>
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    ログアウト
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
     </header>
     <div id="row">
         <div id="container">
             @yield('content')
-        </div >
+        </div>
         <div id="side-bar">
             <div id="confirm">
                 <p>〇〇さんの</p>
                 <div>
-                <p>フォロー数</p>
-                <p>〇〇名</p>
+                    <p>フォロー数</p>
+                    <p>〇〇名</p>
                 </div>
                 <p class="btn"><a href="">フォローリスト</a></p>
                 <div>
-                <p>フォロワー数</p>
-                <p>〇〇名</p>
+                    <p>フォロワー数</p>
+                    <p>〇〇名</p>
                 </div>
                 <p class="btn"><a href="">フォロワーリスト</a></p>
             </div>
@@ -61,4 +73,5 @@
     <script src="JavaScriptファイルのURL"></script>
     <script src="JavaScriptファイルのURL"></script>
 </body>
+
 </html>

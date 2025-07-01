@@ -38,3 +38,5 @@ Route::get('/search', 'UsersController@index');
 
 Route::get('/follow-list', 'PostsController@index');
 Route::get('/follower-list', 'PostsController@index');
+
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
