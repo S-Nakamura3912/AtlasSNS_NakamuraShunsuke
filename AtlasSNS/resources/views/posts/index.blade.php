@@ -2,26 +2,29 @@
 
 @section('content')
 <h2>機能を実装していきましょう。</h2>
-<div class="container">
-  {!! Form::open(['url' => '/post', 'method' => 'POST']) !!}
 
-  <div class="form-group">
-    {{ Form::input('text', 'authorName', null, ['required', 'class' => 'form-control', 'placeholder' => '投稿内容を入力してください']) }}
-  </div>
 
-  <button type="submit" class="btn btn-success pull-right">
-    <img src="{{ asset('images/post.png') }}" alt="送信">
-  </button>
+{{-- ログインユーザーのアイコン --}}
+<img src="{{ asset('images/' . trim(Auth::user()->images ?? 'default.png')) }}" alt="ユーザーアイコン" width="50">
 
-  {!! Form::close() !!}
+
+{{-- 投稿フォーム --}}
+{!! Form::open(['url' => '/post', 'method' => 'POST']) !!}
+
+<div class="form-group">
+  {{ Form::textarea('post', null, [
+          'required',
+          'class' => 'form-control',
+          'placeholder' => '投稿内容を入力してください',
+          'maxlength' => 150
+      ]) }}
 </div>
 
+{{-- 画像ボタンとして送信 --}}
+<button type="submit" class="btn">
+  <img src="{{ asset('images/post.png') }}" alt="送信" style="height: 30px;">
+</button>
 
-
-
-
-
-
-
-
+{!! Form::close() !!}
+</div>
 @endsection

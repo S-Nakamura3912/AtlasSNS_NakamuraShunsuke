@@ -30,7 +30,7 @@ Route::get('/added', 'Auth\RegisterController@added');
 // Route::post('/added', 'Auth\RegisterController@added');
 
 //ログイン中のページ
-Route::get('/top', 'PostsController@index'); //トップページ表示
+Route::get('/top', 'PostsController@index')->middleware('auth'); //トップページ表示, ->middleware('auth') をつけることで、ログイン済みのユーザーしかアクセスできなくなる。
 
 Route::get('/profile', 'UsersController@profile');
 
