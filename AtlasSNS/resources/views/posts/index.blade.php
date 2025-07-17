@@ -25,6 +25,13 @@
   <img src="{{ asset('images/post.png') }}" alt="送信" style="height: 30px;">
 </button>
 
+{{-- 送信が成功したらメッセージ --}}
+@if (session('success'))
+<div class="alert alert-success">
+  {{ session('success') }}
+</div>
+@endif
+
 {!! Form::close() !!}
 </div>
 @endsection
