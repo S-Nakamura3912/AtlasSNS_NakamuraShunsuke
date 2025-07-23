@@ -7,12 +7,22 @@
 {{-- ログインユーザーのアイコン --}}
 <img src="{{ asset('images/' . trim(Auth::user()->images ?? 'default.png')) }}" alt="ユーザーアイコン" width="50">
 
+{{-- 投稿フォームの直前か直後に、エラーメッセージを表示するコードを追加(バリデーション) --}}
+@if ($errors->any())
+<div class="alert alert-danger">
+  <ul>
+    @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+    @endforeach
+  </ul>
+</div>
+@endif
 
 {{-- 投稿フォーム --}}
 {!! Form::open(['url' => '/post', 'method' => 'POST']) !!}
 
 <div class="form-group">
-  {{ Form::textarea('post', null, [
+  {{ Form::textarea('post', old('post'), [
           'required',
           'class' => 'form-control',
           'placeholder' => '投稿内容を入力してください',
