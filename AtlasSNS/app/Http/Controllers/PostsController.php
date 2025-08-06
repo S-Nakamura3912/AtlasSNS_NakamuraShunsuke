@@ -12,12 +12,21 @@ class PostsController extends Controller
     // 投稿一覧ページ
     public function index()
     {
-        // 投稿とそれをしたユーザー情報を新しい順で取得
-        $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
+        // ログインユーザーのフォロー中ユーザーのID一覧を取得
+        $following_ids = Auth::user()->follows()->pluck('users.id')->toArray();
 
-        // ビューに投稿一覧を渡す
+        // 自分自身の投稿も表示したい場合
+        $following_ids[] = Auth::id();
+
+        // フォローしているユーザーの投稿だけ取得
+        $posts = Post::with('user')
+            ->whereIn('user_id', $following_ids)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('posts.index', compact('posts'));
     }
+
 
 
     // ★ 新規投稿の保存処理（これを追加！）
@@ -45,17 +54,17 @@ class PostsController extends Controller
     }
 
     // ★ 投稿の編集
-    public function edit($id)
-    {
-        $post = Post::findOrFail($id);
+    // public function edit($id)
+    // {
+    //     $post = Post::findOrFail($id);
 
-        // ログインユーザー以外が編集しようとした場合は拒否
-        if ($post->user_id !== Auth::id()) {
-            return redirect('/top')->with('error', '他のユーザーの投稿は編集できません。');
-        }
+    //     // ログインユーザー以外が編集しようとした場合は拒否
+    //     if ($post->user_id !== Auth::id()) {
+    //         return redirect('/top')->with('error', '他のユーザーの投稿は編集できません。');
+    //     }
 
-        return view('posts.edit', compact('post'));
-    }
+    //     return view('posts.edit', compact('post'));
+    // }
 
     // ★ 投稿の編集
     public function update(Request $request, $id)
@@ -71,9 +80,8 @@ class PostsController extends Controller
             return redirect('/top')->with('error', '他のユーザーの投稿は編集できません。');
         }
 
-        $post->update([
-            'post' => $request->input('post'),
-        ]);
+        $post->post = $request->input('post');
+        $post->save();
 
         return redirect('/top')->with('success', '投稿を更新しました！');
     }

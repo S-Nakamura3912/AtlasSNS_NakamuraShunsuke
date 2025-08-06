@@ -1,13 +1,11 @@
 @extends('layouts.login')
 
 @section('content')
-<h2>機能を実装していきましょう。</h2>
-
 
 {{-- ログインユーザーのアイコン --}}
 <img src="{{ asset('images/' . trim(Auth::user()->images ?? 'default.png')) }}" alt="ユーザーアイコン" width="50">
 
-{{-- 投稿フォームの直前か直後に、エラーメッセージを表示するコードを追加(バリデーション) --}}
+{{-- バリデーションエラーメッセージ --}}
 @if ($errors->any())
 <div class="alert alert-danger">
   <ul>
@@ -20,79 +18,89 @@
 
 {{-- 投稿フォーム --}}
 {!! Form::open(['url' => '/post', 'method' => 'POST']) !!}
-
 <div class="form-group">
   {{ Form::textarea('post', old('post'), [
-          'required',
-          'class' => 'form-control',
-          'placeholder' => '投稿内容を入力してください',
-          'maxlength' => 150
-      ]) }}
+        'required',
+        'class' => 'form-control',
+        'placeholder' => '投稿内容を入力してください',
+        'maxlength' => 150
+    ]) }}
 </div>
-
-{{-- 画像ボタンとして送信 --}}
 <button type="submit" class="btn">
   <img src="{{ asset('images/post.png') }}" alt="送信" style="height: 30px;">
 </button>
-
-
-{{-- 送信が成功したらメッセージ --}}
 @if (session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
+<div class="alert alert-success">{{ session('success') }}</div>
 @endif
-
 {!! Form::close() !!}
 
-
-{{-- 投稿内容を画面に表示 --}}
+{{-- 投稿一覧 --}}
 <h3>投稿一覧</h3>
-
 @if ($posts->isEmpty())
 <p>投稿はまだありません。</p>
 @else
 <ul>
   @foreach ($posts as $post)
-
-  {{-- 投稿欄の枠組みで囲う --}}
-  <li style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding: 10px;">
-
-  <li style="margin-bottom: 15px;">
+  <li style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding: 10px;">
     {{-- ユーザーアイコン --}}
-    <img src="{{ asset('images/' . ($post->user->images ?? 'default.png')) }}"
-      alt="ユーザーアイコン"
-      style="width:40px; height:40px; border-radius:50%; margin-right:10px; vertical-align:middle;">
+    <img src="{{ asset('images/' . ($post->user->images ?? 'default.png')) }}" alt="ユーザーアイコン"
+      style="width:40px; height:40px; border-radius:50%; margin-right:10px;">
 
     {{-- ユーザー名 --}}
     <strong>{{ $post->user->username ?? '匿名' }}:</strong>
 
     {{-- 投稿内容 --}}
-    {{ $post->post }}
+    <span class="post-content">{{ $post->post }}</span>
 
     {{-- 投稿日時 --}}
     <small>（{{ $post->created_at->format('Y-m-d H:i') }}）</small>
 
-
-    {{-- 自分の投稿なら「編集」リンク」を表示 --}}
+    {{-- 編集ボタン（自分の投稿のみ） --}}
     @if ($post->user_id === Auth::id())
-    <div style="min-width: 60px; text-align: right;">
-      <a href="/post/{{ $post->id }}/edit">
-        <img src="{{ asset('images/edit.png') }}" alt="編集" style="height: 30px;">
-        　 </a>
+    <div class="content">
+      <a class="js-modal-open" href="#" data-post="{{ $post->post }}" data-post_id="{{ $post->id }}">
+        <img src="{{ asset('images/edit.png') }}" alt="編集" class="edit-img">
+      </a>
 
-      {{-- 消去処理の表示 --}}
+      {{-- 消去ボタン --}}
       {!! Form::open(['url' => '/post/' . $post->id . '/delete', 'method' => 'POST', 'style' => 'display:inline;']) !!}
-      <button type="submit" onclick="return confirm('本当に削除しますか？')" style="color:red; border:none; background:none; cursor:pointer;">
-        <img src="{{ asset('images/trash-h.png') }}" alt="消去" style="height: 30px;">
+      <button type="submit" onclick="return confirm('本当に削除しますか？')" class="delete-btn">
+        <img src="{{ asset('images/trash-h.png') }}" alt="消去" class="delete-img">
       </button>
-      {!! Form::close() !!}
-      @endif
+    </div>
 
+    {!! Form::close() !!}
+    @endif
   </li>
   @endforeach
-
 </ul>
 @endif
 
+{{-- 編集用モーダル --}}
+<div class="modal js-modal" style="display:none;">
+  <div class="modal__bg js-modal-close"></div>
+  <div class="modal__content">
+    {!! Form::open(['url' => '', 'method' => 'POST', 'id' => 'editPostForm']) !!}
+    @csrf
+    @method('PUT')
+
+    <div class="modal__form-wrapper">
+      {{-- テキストエリア --}}
+      <textarea name="post" class="modal_post" required maxlength="150"></textarea>
+
+      {{-- 投稿ID（hidden） --}}
+      <input type="hidden" name="id" class="modal_id">
+
+      {{-- 送信ボタン（画像付き） --}}
+      <button type="submit" class="edit-submit-btn">
+        <img src="{{ asset('images/edit.png') }}" alt="編集" style="height: 30px;">
+      </button>
+    </div>
+
+    {!! Form::close() !!}
+
+    {{-- 閉じるリンク --}}
+    <a class="js-modal-close" href="#"></a>
+  </div>
+</div>
 @endsection

@@ -21,35 +21,44 @@
     <!--OGPタグ/twitterカード-->
 </head>
 
+
+
 <body>
     <header>
         <div id="head">
             <h1><a href="/top"><img src="{{ asset('images/atlas.png') }}"></a></h1>
-            <div id="">
-                <div id="">
-                    <p>〇〇さん<img src="images/arrow.png"></p>
-                    <div>
-                        <ul>
-                            <li><a href="/top">ホーム</a></li>
-                            <li><a href="/profile">プロフィール</a></li>
-                            <!-- <li><a href="/logout">ログアウト</a></li>//get送信になっている -->
-                            <li>
-                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    ログアウト
-                                </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-
-                        </ul>
-                    </div>
+            <div id="user-menu">
+                {{-- クリックで開くエリア --}}
+                <div class="user-toggle js-accordion-toggle">
+                    <p>
+                        <strong>{{ Auth::user()->username }} さん</strong>
+                        <img src="{{ asset('images/' . trim(Auth::user()->images ?? 'default.png')) }}" alt="ユーザーアイコン" width="50">
+                    </p>
                 </div>
+
+                {{-- 開閉されるメニューエリア --}}
+                <div class="js-accordion-menu" style="display: none;">
+                    <ul>
+                        <li><a href="/top">ホーム</a></li>
+                        <li><a href="/profile">プロフィール</a></li>
+                        <li>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </header>
+
+
     <div id="row">
         <div id="container">
             @yield('content')
+            <!-- ↑他のビューから挿入される中身（＝子ビューの中身）が入ります。 -->
         </div>
         <div id="side-bar">
             <div id="confirm">
@@ -70,8 +79,14 @@
     </div>
     <footer>
     </footer>
-    <script src="JavaScriptファイルのURL"></script>
-    <script src="JavaScriptファイルのURL"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- BootstrapのJS（モーダルの動作に必須） -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- あなたの独自JS -->
+    <script src="{{ asset('js/script.js') }}"></script>
+
 </body>
 
 </html>

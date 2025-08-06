@@ -37,11 +37,9 @@ Route::get('/top', 'PostsController@index')->middleware('auth'); //トップペ�
 
 Route::post('/post', 'PostsController@store')->middleware('auth');
 
-// 投稿編集画面を表示
-Route::get('/post/{id}/edit', 'PostsController@edit')->middleware('auth');
 
 // 投稿内容を更新
-Route::post('/post/{id}/update', 'PostsController@update')->middleware('auth');
+Route::put('/post/{id}/update', 'PostsController@update')->middleware('auth');
 
 // 投稿削除
 Route::post('/post/{id}/delete', 'PostsController@destroy')->middleware('auth');

@@ -1,22 +1,162 @@
 @charset "utf-8";
-html{
+
+html {}
+
+body {}
+
+
+
+.user-menu {
+    position: relative;
+    display: inline-block;
 }
-body{
+
+.user-dropdown {
+    position: absolute;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    width: 150px;
+    z-index: 9999;
 }
+
+.user-dropdown li {
+    margin: 5px 0;
+}
+
+.user-dropdown a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+
+
 /* header */
-header{
-    background:#186AC9;
+header {
+    background: #186AC9;
 }
 
 /* main content */
-#row{
+#row {
     display: flex;
     flex-flow: row wrap;
 }
-#container{
+
+#container {
     flex: 0 0 80%;
 }
-#side-bar{
+
+#side-bar {
     flex: 0 0 19%;
     border-left: 1px solid #727272;
+}
+
+.edit-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.edit-img {
+    height: 30px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-img {
+    height: 30px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.delete-btn:hover .delete-img {
+    content: url('/images/trash.png');
+    /* ホバー時の画像に切り替え */
+}
+
+/* 必要に応じて編集しご自身でSNS課題のレイアウトのようにカスタマイズしてください。 */
+.content {
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.modal {
+    display: none;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    /* ← 忘れずに */
+}
+
+.modal__bg {
+    background: rgba(0, 0, 0, 0.8);
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.modal__content {
+    background: #fff;
+    left: 50%;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    z-index: 10000;
+    /* ← これも必要 */
+    text-align: center;
+    /* ← 中央揃えにする */
+}
+
+.content {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    /* ボタン同士の余白 */
+    margin-top: 5px;
+}
+
+.edit-img,
+.delete-img {
+    height: 25px;
+    cursor: pointer;
+}
+
+/* 編集モーダルを開いた時のボタン */
+.edit-submit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal__form-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* ← 縦並び */
+    align-items: center;
+    /* ← 中央揃え */
+    gap: 20px;
+    /* ← 要素間の余白（お好みで） */
+}
+
+.modal_post {
+    width: 80%;
+    /* ← 横幅調整 */
+    resize: none;
 }
