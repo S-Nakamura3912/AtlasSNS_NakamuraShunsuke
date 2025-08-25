@@ -4,11 +4,23 @@ html {}
 
 body {}
 
-
-
-.user-menu {
+#user-menu {
     position: relative;
     display: inline-block;
+    /* or block */
+}
+
+.js-accordion-menu {
+    position: absolute;
+    top: 100%;
+    /* .js-accordion-toggle の下に表示 */
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+    display: none;
+    /* 初期非表示 */
 }
 
 .user-dropdown {

@@ -79,13 +79,15 @@
     </div>
     <footer>
     </footer>
+    <!-- jQuery読み込み -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- BootstrapのJS（モーダルの動作に必須） -->
+    <!-- BootstrapのJS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-    <!-- あなたの独自JS -->
+    <!-- 独自JS（ここでscript.jsを読み込む） -->
     <script src="{{ asset('js/script.js') }}"></script>
+
 
 </body>
 

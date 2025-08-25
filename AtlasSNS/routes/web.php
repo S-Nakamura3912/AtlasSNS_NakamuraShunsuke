@@ -44,9 +44,11 @@ Route::put('/post/{id}/update', 'PostsController@update')->middleware('auth');
 // 投稿削除
 Route::post('/post/{id}/delete', 'PostsController@destroy')->middleware('auth');
 
-Route::get('/profile', 'UsersController@profile');
+Route::get('profile/{id}', 'UsersController@profile')->name('profile')->middleware('auth');
+// Route::get('/profile', 'UsersController@profile');
 
-Route::get('/search', 'UsersController@search');
+
+Route::get('/search', 'UsersController@search')->middleware('auth');;
 
 Route::get('/follow-list', 'FollowsController@followList');
 Route::get('/follower-list', 'FollowsController@followerList');
