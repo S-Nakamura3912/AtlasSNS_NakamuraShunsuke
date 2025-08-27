@@ -3,14 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Auth; // ← これを追加！
+
 
 class UsersController extends Controller
 {
-    //
-    public function profile(){
-        return view('users.profile');
+    // プロフィールページ
+    public function profile($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.profile', compact('user'));
     }
-    public function search(){
-        return view('users.search');
+
+    // ユーザー検索
+    public function search(Request $request)
+    {
+        $keyword = $request->input('username');
+        $loginUserId = Auth::id(); // ログイン中のユーザーID取得
+
+
+        // キーワードがあれば絞り込み、なければ全件取得
+        $users = User::when($keyword, function ($query, $keyword) {
+            return $query->where('username', 'like', "%{$keyword}%");
+            // return $query->where('username', 'like', '%'.$keyword.'%');
+        })
+            ->where('id', '!=', $loginUserId) // 自分を除外
+            ->get();
+
+        return view('users.search', compact('users', 'keyword'));
     }
 }

@@ -49,6 +49,8 @@ Route::get('profile/{id}', 'UsersController@profile')->name('profile')->middlewa
 
 
 Route::get('/search', 'UsersController@search')->middleware('auth');;
+Route::post('/search', 'UsersController@search')->name('search');
+
 
 Route::get('/follow-list', 'FollowsController@followList');
 Route::get('/follower-list', 'FollowsController@followerList');
