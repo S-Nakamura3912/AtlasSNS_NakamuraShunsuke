@@ -48,8 +48,16 @@ Route::get('profile/{id}', 'UsersController@profile')->name('profile')->middlewa
 // Route::get('/profile', 'UsersController@profile');
 
 
-Route::get('/search', 'UsersController@search')->middleware('auth');;
-Route::post('/search', 'UsersController@search')->name('search');
+Route::get('/search', 'UsersController@search')->middleware('auth');
+Route::post('/search', 'UsersController@search')->name('search')->middleware('auth');
+
+// フォローする
+Route::post('/follow/{id}', 'FollowsController@follow')->name('follow')->middleware('auth');
+// フォロー解除
+Route::delete('/unfollow/{id}', 'FollowsController@unfollow')->name('unfollow')->middleware('auth');
+
+Route::post('/follow/{id}', 'UsersController@follow')->name('follow')->middleware('auth');
+Route::delete('/unfollow/{id}', 'UsersController@unfollow')->name('unfollow')->middleware('auth');
 
 
 Route::get('/follow-list', 'FollowsController@followList');

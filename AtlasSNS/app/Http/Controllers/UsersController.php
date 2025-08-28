@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth; // ← これを追加！
+use App\Follow; // Followテーブルを使う
 
 
 class UsersController extends Controller
@@ -32,5 +33,28 @@ class UsersController extends Controller
             ->get();
 
         return view('users.search', compact('users', 'keyword'));
+    }
+
+    // フォロー
+    public function follow($id)
+    {
+        Follow::create([
+            'following_id' => Auth::id(),
+            'followed_id' => $id,
+        ]);
+
+        // 検索画面にリダイレクト
+        return redirect('/search');
+    }
+
+    // フォロー解除
+    public function unfollow($id)
+    {
+        Follow::where('following_id', Auth::id())
+            ->where('followed_id', $id)
+            ->delete();
+
+        // 検索画面にリダイレクト
+        return redirect('/search');
     }
 }
